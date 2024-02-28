@@ -2,9 +2,11 @@ import RestuarantCard from "./RestuarantCard";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Shimmer from "./Shimmer";
+import { Link } from "react-router-dom";
 
 const Body = () => {
   const [datas, setDatas] = useState([]);
+  const [filteredRestaurant,setFilteredRestaurant]=useState([])
   const [searchText,setSearchText]=useState("")
   useEffect(() => {
     fetchData();
@@ -17,6 +19,7 @@ const Body = () => {
     );
     const ogData = response?.data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     setDatas(ogData);
+    setFilteredRestaurant(ogData)
 };
 
 return datas.length==0?<Shimmer/>: (
@@ -26,24 +29,24 @@ return datas.length==0?<Shimmer/>: (
             <input type="text" className="search-box" value={searchText}
              onChange={(e)=>{setSearchText(e.target.value)}}/>
             <button onClick={()=>{
-                let editData=datas.filter((res)=>res.info.name.includes(searchText) )
-                setDatas(editData)
+                let editData=datas.filter((res)=>res.info.name.toLowerCase().includes(searchText.toLowerCase()) )
+                setFilteredRestaurant(editData)
             }}>Search</button>
         </div>
         <button 
           className="filter-btn"
           onClick={() => {
-            let editData = datas.filter((res) => res.info.avgRating > 4.4);
-            setDatas(editData);
+            let editData = filteredRestaurant.filter((res) => res.info.avgRating > 4.5);
+            setFilteredRestaurant(editData);
           }}
         >
           TAP HERE TO FILTER
         </button>
       </div>
       <div className="res-continer">
-        {datas &&
-          datas.map((restaurant, ind) => (
-            <RestuarantCard key={ind} resData={restaurant} />
+        {filteredRestaurant &&
+          filteredRestaurant.map((restaurant, ind) => (
+           <Link key={restaurant.info.id}  to={'restaurants/'+restaurant.info.id}> <RestuarantCard resData={restaurant} /></Link> 
           ))}
       </div>
     </div>

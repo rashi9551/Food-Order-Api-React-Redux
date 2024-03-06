@@ -3,12 +3,16 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../../utils/useOnlineStatus";
 
 const Body = () => {
   const [datas, setDatas] = useState([]);
   const [filteredRestaurant,setFilteredRestaurant]=useState([])
   const [searchText,setSearchText]=useState("")
+  const onlineStat=useOnlineStatus()
+  console.log(onlineStat)
   useEffect(() => {
+    
     fetchData();
     
   }, []);
@@ -21,6 +25,9 @@ const Body = () => {
     setDatas(ogData);
     setFilteredRestaurant(ogData)
 };
+if(onlineStat===false){
+  return <p>The internet coonnection was lost</p>
+}else{
 
 return datas.length==0?<Shimmer/>: (
     <div className="body">
@@ -51,7 +58,9 @@ return datas.length==0?<Shimmer/>: (
       </div>
     </div>
   );
+  }
 };
+
 export default Body;
 
 

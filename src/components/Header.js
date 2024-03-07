@@ -7,17 +7,17 @@ const Header=()=>{
 const [stat,setStat]=useState(['Login'])
 const onlineStat=useOnlineStatus()
     return (
-        <div className="Header">
+        <div className="flex justify-between shadow-lg bg-pink-100">
             <div className="logo-container">
-                <img className="logo" src={LOGO_URL} />
+                <img className="w-[155px] " src={LOGO_URL} />
             </div>
-            <div className="nav-items">
-                <ul>
-                    <li>online:{onlineStat==false?"🚫":"✅"}</li>
-                    <li><Link to="/">Home</Link></li>
-                    <li><Link to="/about">About Us</Link></li>
-                    <li>Contact Us</li>
-                    <li>Cart</li>
+            <div className="flex items-center">
+                <ul className='flex p-4 m-4'>
+                    <li className='px-4'>online:{onlineStat==false?"🚫":"✅"}</li>
+                    <li className='px-4'><Link to="/">Home</Link></li>
+                    <li className='px-4'><Link to="/about">About Us</Link></li>
+                    <li className='px-4'>Contact Us</li>
+                    <li className='px-4'>Cart</li>
                     <button className='login-btn' onClick={()=>{stat=== 'Login'?setStat('Logout'):setStat('Login')}}>{stat}</button>
                 </ul>
             </div>

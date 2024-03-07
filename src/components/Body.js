@@ -1,5 +1,6 @@
-import RestuarantCard from "./RestuarantCard";
 import { useState, useEffect } from "react";
+import  {withPromoted} from "./RestuarantCard";
+import RestuarantCard from "./RestuarantCard";
 import axios from "axios";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
@@ -10,7 +11,9 @@ const Body = () => {
   const [filteredRestaurant,setFilteredRestaurant]=useState([])
   const [searchText,setSearchText]=useState("")
   const onlineStat=useOnlineStatus()
-  console.log(onlineStat)
+
+
+  const RestaurantCardPromoted=withPromoted(RestuarantCard)
   useEffect(() => {
     
     fetchData();
@@ -31,29 +34,37 @@ if(onlineStat===false){
 
 return datas.length==0?<Shimmer/>: (
     <div className="body">
-      <div className="filter">
-        <div className="search">
-            <input type="text" className="search-box" value={searchText}
+      <div className="filter flex ">
+        <div className="search m-4 p-4">
+            <input type="text" className="border border-solid border-block" value={searchText}
              onChange={(e)=>{setSearchText(e.target.value)}}/>
-            <button onClick={()=>{
+            <button className="px-4 py-2 bg-green-100 m-4 rounded-lg"
+            onClick={()=>{
                 let editData=datas.filter((res)=>res.info.name.toLowerCase().includes(searchText.toLowerCase()) )
                 setFilteredRestaurant(editData)
             }}>Search</button>
         </div>
-        <button 
-          className="filter-btn"
-          onClick={() => {
-            let editData = filteredRestaurant.filter((res) => res.info.avgRating > 4.5);
-            setFilteredRestaurant(editData);
-          }}
-        >
-          TAP HERE TO FILTER
-        </button>
+        <div className=" m-4 p-4 flex items-center">
+          <button 
+            className=" px-4 py-2 bg-gray-100  rounded-lg "
+            onClick={() => {
+              let editData = filteredRestaurant.filter((res) => res.info.avgRating > 4.5);
+              setFilteredRestaurant(editData);
+            }}
+          >
+            TAP HERE TO FILTER
+          </button>
+
+        </div>
       </div>
-      <div className="res-continer">
+      <div className="flex flex-wrap">
         {filteredRestaurant &&
           filteredRestaurant.map((restaurant, ind) => (
-           <Link key={restaurant.info.id}  to={'restaurants/'+restaurant.info.id}> <RestuarantCard resData={restaurant} /></Link> 
+           <Link key={restaurant.info.id}  to={'restaurants/'+restaurant.info.id}> 
+          {restaurant.info.avgRating > 4.5?(<RestaurantCardPromoted resData={restaurant}/>):(
+           <RestuarantCard resData={restaurant} />)}
+           
+           </Link> 
           ))}
       </div>
     </div>

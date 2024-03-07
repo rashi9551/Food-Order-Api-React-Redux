@@ -1,4 +1,5 @@
-const Error=()=>{
+const Error=(err)=>{
+    console.log(err)
     return (
         <div>
             <h1>oops</h1>

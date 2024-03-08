@@ -25,6 +25,7 @@ const Body = () => {
       "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.6126255&lng=77.04108959999999&page_type=DESKTOP_WEB_LISTING"
     );
     const ogData = response?.data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    console.log(response?.data?.data?.cards);
     setDatas(ogData);
     setFilteredRestaurant(ogData)
 };
@@ -48,7 +49,7 @@ return datas.length==0?<Shimmer/>: (
           <button 
             className=" px-4 py-2 bg-gray-100  rounded-lg "
             onClick={() => {
-              let editData = filteredRestaurant.filter((res) => res.info.avgRating > 4.5);
+              let editData = filteredRestaurant.filter((res) => res.info.avgRating > 4.2);
               setFilteredRestaurant(editData);
             }}
           >
@@ -57,11 +58,11 @@ return datas.length==0?<Shimmer/>: (
 
         </div>
       </div>
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap ">
         {filteredRestaurant &&
           filteredRestaurant.map((restaurant, ind) => (
            <Link key={restaurant.info.id}  to={'restaurants/'+restaurant.info.id}> 
-          {restaurant.info.avgRating > 4.5?(<RestaurantCardPromoted resData={restaurant}/>):(
+          {restaurant.info.avgRating > 4.2?(<RestaurantCardPromoted resData={restaurant}/>):(
            <RestuarantCard resData={restaurant} />)}
            
            </Link> 
@@ -73,6 +74,3 @@ return datas.length==0?<Shimmer/>: (
 };
 
 export default Body;
-
-
-

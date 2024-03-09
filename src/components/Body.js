@@ -1,17 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import  {withPromoted} from "./RestuarantCard";
 import RestuarantCard from "./RestuarantCard";
 import axios from "axios";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../../utils/useOnlineStatus";
+import userContext from "./useContext";
 
 const Body = () => {
   const [datas, setDatas] = useState([]);
   const [filteredRestaurant,setFilteredRestaurant]=useState([])
   const [searchText,setSearchText]=useState("")
   const onlineStat=useOnlineStatus()
-
+  const {SetUserName}=useContext(userContext)
 
   const RestaurantCardPromoted=withPromoted(RestuarantCard)
   useEffect(() => {
@@ -55,7 +56,11 @@ return datas.length==0?<Shimmer/>: (
           >
             TAP HERE TO FILTER
           </button>
+        <div className=" px-4 mx-4">
+          <label htmlFor="" >userName : </label>
+          <input type="text" className="border-black border" onChange={(e)=>SetUserName(e.target.value)}/>
 
+        </div>
         </div>
       </div>
       <div className="flex flex-wrap ">

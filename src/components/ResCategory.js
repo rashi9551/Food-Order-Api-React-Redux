@@ -8,7 +8,6 @@ const RestaurantCategory=({data,showItems,setShowIndex,index})=>{
         if(upState)
         {
             setShowIndex(index)
-            console.log(index,upState);
         }else{
             setShowIndex(null)
         }

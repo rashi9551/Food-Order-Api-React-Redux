@@ -29,6 +29,3 @@ const RestaurantCategory=({data,showItems,setShowIndex,index})=>{
     )
 }
 export default RestaurantCategory
-// ru r- u r u2 r-
-// u r u- l- u r- u- l 
-// r- d- r d
